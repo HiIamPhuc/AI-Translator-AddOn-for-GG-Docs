@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+      :root {
+        --primary-color: #4285F4;
+        --primary-dark: #3367D6;
+        --success-color: #0F9D58;
+        --warning-color: #F4B400;
+        --error-color: #DB4437;
+        --bg-color: #FFFFFF;
+        --text-color: #202124;
+        --text-secondary: #5F6368;
+        --border-color: #DADCE0;
+        --hover-bg: #F1F3F4;
+        --shadow-sm: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+        --shadow-md: 0 2px 6px rgba(60, 64, 67, 0.15), 0 1px 2px rgba(60, 64, 67, 0.3);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        color: var(--text-color);
+        background-color: var(--bg-color);
+        line-height: 1.5;
+        padding: 16px;
+        font-size: 14px;
+      }
+
+      .app-header {
+        text-align: center;
+        margin-bottom: 24px;
+        position: relative;
+      }
+
+      .app-logo {
+        font-weight: 600;
+        font-size: 20px;
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .form-section {
+        margin-bottom: 24px;
+        position: relative;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        font-size: 13px;
+      }
+
+      select, input, textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+      }
+
+      select:focus, input:focus, textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.25);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 100px;
+        line-height: 1.5;
+      }
+
+      #translatedText {
+        background-color: #F8F9FA;
+        border: 1px solid var(--border-color);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+        padding: 12px 16px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow-sm);
+        width: 100%;
+      }
+
+      .btn:hover {
+        background-color: var(--primary-dark);
+        box-shadow: var(--shadow-md);
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn .material-icons {
+        font-size: 18px;
+      }
+
+      .lang-swap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 0;
+        position: relative;
+      }
+
+      .swap-icon {
+        background-color: var(--primary-color);
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: var(--shadow-sm);
+        border: 2px solid white;
+      }
+
+      .swap-icon:hover {
+        background-color: var(--primary-dark);
+        transform: rotate(180deg);
+      }
+
+      .lang-container {
+        display: flex;
+        gap: 12px;
+      }
+
+      .lang-select {
+        flex: 1;
+      }
+
+      .card {
+        background-color: white;
+        border-radius: var(--radius-md);
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-color);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        color: var(--primary-color);
+        font-weight: 500;
+      }
+
+      .divider {
+        height: 1px;
+        background-color: var(--border-color);
+        margin: 16px 0;
+      }
+
+      .result-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .result-header h4 {
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .tooltip {
+        position: relative;
+        display: inline-block;
+      }
+
+      .tooltip .tooltip-text {
+        visibility: hidden;
+        width: 200px;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -100px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 12px;
+      }
+
+      .tooltip:hover .tooltip-text {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      .advanced-options {
+        padding: 12px;
+        border-radius: var(--radius-sm);
+        background-color: #F8F9FA;
+        margin-top: 8px;
+      }
+      
+      .toggle-section {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 8px;
+      }
+      
+      .hidden {
+        display: none;
+      }
+      
+      #copyButton {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+      }
+      
+      #copyButton:hover {
+        background-color: var(--hover-bg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-header">
+      <div class="app-logo">
+        <span class="material-icons">translate</span>
+        <span>AI Translator</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="card">
+        <div class="card-header">
+          <span class="material-icons">settings</span>
+          Translation Settings
+        </div>
+        
+        <div class="lang-container">
+          <div class="lang-select">
+            <label for="sourceLang">From:</label>
+            <select id="sourceLang">
+              <option>Auto</option>
+              <option>English</option>
+              <option>Vietnamese</option>
+              <option>French</option>
+              <option>Korean</option>
+              <option>Chinese</option>
+            </select>
+          </div>
+          
+          <div class="lang-swap">
+            <div class="swap-icon" onclick="swapLanguages()">
+              <span class="material-icons">swap_horiz</span>
+            </div>
+          </div>
+          
+          <div class="lang-select">
+            <label for="targetLang">To:</label>
+            <select id="targetLang">
+              <option>English</option>
+              <option>Vietnamese</option>
+              <option>French</option>
+              <option>Korean</option>
+              <option>Chinese</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="toggle-section" onclick="toggleAdvanced()">
+          <span>Advanced Options</span>
+          <span class="material-icons" id="toggleIcon">expand_more</span>
+        </div>
+        
+        <div id="advancedOptions" class="advanced-options hidden">
+          <div class="form-group">
+            <label for="model">AI Model:</label>
+            <select id="model">
+              <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+              <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="temperature" class="tooltip">
+              Temperature:
+              <span class="tooltip-text">Lower values = more accurate, Higher values = more creative</span>
+            </label>
+            <input type="range" id="temperature" min="0" max="1" step="0.1" value="0.7" 
+                   oninput="document.getElementById('tempValue').textContent = this.value">
+            <div style="text-align: right; font-size: 12px; color: var(--text-secondary);">
+              Value: <span id="tempValue">0.7</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="writingStyle">Writing Style (optional):</label>
+            <input type="text" id="writingStyle" placeholder="e.g. Formal, Friendly, Academic...">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="material-icons">text_fields</span>
+          Text Input
+        </div>
+        <div class="form-group">
+          <label for="customInput"><em>If no text is selected in document:</em></label>
+          <textarea id="customInput" placeholder="Enter text to translate..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn" onclick="handleTranslate()">
+        <span class="material-icons">translate</span>
+        Translate
+      </button>
+    </div>
+
+    <div class="result-header">
+      <h4>Translation Result</h4>
+      <button id="copyButton" onclick="copyTranslatedText()">
+        <span class="material-icons">content_copy</span>
+      </button>
+    </div>
+    <textarea id="translatedText" readonly></textarea>
+
+    <script>
+      function handleTranslate() {
+        // Show loading state
+        document.getElementById('translatedText').value = "Translating...";
+        
+        google.script.run.withSuccessHandler(function(selectedText) {
+          const inputText = selectedText.trim() || document.getElementById('customInput').value.trim();
+
+          if (!inputText) {
+            document.getElementById('translatedText').value = "Please select or enter text to translate.";
+            return;
+          }
+
+          const data = {
+            text: inputText,
+            source_lang: document.getElementById('sourceLang').value,
+            target_lang: document.getElementById('targetLang').value,
+            model: document.getElementById('model').value,
+            temperature: parseFloat(document.getElementById('temperature').value),
+            writing_style: document.getElementById('writingStyle').value,
+          };
+
+          google.script.run.withSuccessHandler(function(result) {
+            document.getElementById('translatedText').value = result;
+          }).translateText(data);
+
+        }).getSelectedText();
+      }
+      
+      function toggleAdvanced() {
+        const advancedOptions = document.getElementById('advancedOptions');
+        const toggleIcon = document.getElementById('toggleIcon');
+        
+        if (advancedOptions.classList.contains('hidden')) {
+          advancedOptions.classList.remove('hidden');
+          toggleIcon.textContent = 'expand_less';
+        } else {
+          advancedOptions.classList.add('hidden');
+          toggleIcon.textContent = 'expand_more';
+        }
+      }
+      
+      function swapLanguages() {
+        const sourceLang = document.getElementById('sourceLang');
+        const targetLang = document.getElementById('targetLang');
+        
+        // Don't swap if source is "Auto"
+        if (sourceLang.value !== "Auto") {
+          const temp = sourceLang.value;
+          sourceLang.value = targetLang.value;
+          targetLang.value = temp;
+        }
+      }
+      
+      function copyTranslatedText() {
+        const translatedText = document.getElementById('translatedText');
+        translatedText.select();
+        document.execCommand('copy');
+        
+        // Show temporary feedback
+        const copyButton = document.getElementById('copyButton');
+        const originalIcon = copyButton.innerHTML;
+        copyButton.innerHTML = '<span class="material-icons">check</span>';
+        setTimeout(() => {
+          copyButton.innerHTML = originalIcon;
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>
